@@ -1,38 +1,147 @@
 <p>home works!</p>
-<div style="display: flex;">
-    <div>
+<!-- <div class="card">
+    <p-carousel [value]="this.userDatas.value()" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+        <ng-template let-product #item>
+            <div class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4">
+                <div class="mb-4">
+                    <div class="relative mx-auto">
+                        <img alt="" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" [alt]="product.name" class="w-full rounded-border" />
+                        <p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product.inventoryStatus)" class="absolute dark:!bg-surface-900" [ngStyle]="{ 'left.px': 5, 'top.px': 5 }" />
+                    </div>
+                </div>
+                <div class="mb-4 font-medium">{{ product.name }}</div>
+                <div class="flex justify-between items-center">
+                    <div class="mt-0 font-semibold text-xl">{{ '$' + product.price }}</div>
+                    <span>
+                        <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" />
+                        <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+    </p-carousel>
+</div> -->
+<div class="flex align-items-start">
+    <div class="w-25rem">
         @if(this.userDatas.isLoading()){
-        <h1>Loading...</h1>
+        <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+            <ng-template #header>
+                <p-skeleton height="10rem" class="w-full" borderRadius="16px" />
+            </ng-template>
+            <ng-template #title> <p-skeleton width="3rem" height="2rem" class="mb-2" borderRadius="16px" />
+            </ng-template>
+            <ng-template #subtitle> <p-skeleton width="3rem" height="2rem" class="mb-2"
+                    borderRadius="16px" /></ng-template>
+            <p>
+                <p-skeleton width="10rem" class="mb-2" />
+                <p-skeleton width="10rem" class="mb-2" />
+                <p-skeleton width="10rem" class="mb-2" />
+            </p>
+            <ng-template #footer>
+                <div class="flex gap-4 mt-1">
+                    <p-skeleton height="1rem" class="w-full" borderRadius="16px" />
+                </div>
+            </ng-template>
+        </p-card>
         } @else if(this.userDatas.error()){
         <h1>Error...</h1>
         } @else if(this.userDatas.value()){
         @for (item of this.userDatas.value(); track item.id){
-        <div style="padding-block: 0.2rem;border: 1px solid black;width: 300px;">
-            <button style="background: black;color: white;" (click)="this.selectedUser.set(item.id)">{{item.username}}</button>
-            <h3>{{item.name}}</h3>
-            <h3>{{item.email}}</h3>
-        </div>
+        <p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+            <ng-template #header>
+                <img alt="Card" class="w-full" height="300" src="https://picsum.photos/200/300?random={{item.id}}" />
+            </ng-template>
+            <ng-template #title> {{item.username}} </ng-template>
+            <ng-template #subtitle> {{item.name}} </ng-template>
+            <p>
+                {{item.email}}
+            </p>
+            <ng-template #footer>
+                <div class="flex gap-4 mt-1">
+                    <!-- <p-button label="Cancel" severity="secondary" class="w-full" [outlined]="true" styleClass="w-full" /> -->
+                    <p-button label="View" class="w-full" styleClass="w-full"
+                        (onClick)="this.selectedUser.set(item.id)" />
+                </div>
+            </ng-template>
+        </p-card>
 
         }
-    }
-    </div>
-    <div style="margin-left: 2rem;">
-        @if(this.selectedUserData.isLoading()){
-        <h1>Loading...</h1>
-        } @else if(this.selectedUserData.error()){
-        <h1>Error...</h1>
-        } @else if(this.selectedUserData.value()){
-        <div style="padding-block: 0.2rem;border: 1px solid black;width: 300px;">
-            <h2>Selected User Details</h2>
-            <h3>{{this.selectedUserData.value()?.name}}</h3>
-            <h3>{{this.selectedUserData.value()?.email}}</h3>
-            <h3>{{this.selectedUserData.value()?.phone}}</h3>
-            <h3>{{this.selectedUserData.value()?.website}}</h3>
-            <h3>{{this.selectedUserData.value()?.company.name}}</h3>
-            <h3>{{this.selectedUserData.value()?.address.city}}</h3>
-        </div>
-
         }
-
     </div>
+    <div class="w-9 flex flex-wrap">
+        <div class="ml-4 flex-auto w-12">
+            @if(this.selectedUserData.isLoading()){
+            <h1>Loading...</h1>
+            } @else if(this.selectedUserData.error()){
+            <h1>Error...</h1>
+            } @else if(this.selectedUserData.value()){
+            <div class="card">
+                <p-carousel [circular]="true" [value]="this.selectedUserData.value() || []" [numVisible]="3"
+                    [numScroll]="1" [responsiveOptions]="responsiveOptions">
+                    <ng-template let-album #item>
+                        <div class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4">
+                            <div class="mb-4">
+                                <div class="relative mx-auto">
+                                    <img alt="" src="https://picsum.photos/200/300?2random={{album.id}}" (click)="selectedUserAlbum.set(album.id)"
+                                        [alt]="album.title" height="200" width="300" class=" rounded-border" />
+                                    <p-tag [value]="getSeverity(album.title)" [severity]="getSeverity(album.title)"
+                                        class="absolute dark:!bg-surface-900"
+                                        [ngStyle]="{ 'left.px': 5, 'top.px': 5 }" />
+                                </div>
+                            </div>
+                            <div class="mb-4 font-medium">{{ album.id }} {{ album.title }}</div>
+                            <div class="flex justify-between items-center">
+                                <div class="mt-0 font-semibold text-xl">{{ '$' + album.title }}</div>
+                                <span>
+                                    <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" />
+                                    <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
+                                </span>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-carousel>
+            </div>
+
+            }
+
+        </div>
+        <div class="ml-4 flex-auto w-9">
+            @if(this.selectedUserAlbumData.isLoading()){
+            <h1>Loading...</h1>
+            } @else if(this.selectedUserAlbumData.error()){
+            <h1>Error...</h1>
+            } @else if(this.selectedUserAlbumData.value()){
+            <div class="card">
+                <p-carousel [circular]="true" [value]="this.selectedUserAlbumData.value() || []" [numVisible]="3"
+                    [numScroll]="1" [responsiveOptions]="responsiveOptions">
+                    <ng-template let-photos #item>
+                        <div class="border border-surface-200 dark:border-surface-700 rounded m-2 p-4">
+                            <div class="mb-4">
+                                <div class="relative mx-auto">
+                                    <img alt="" src="https://picsum.photos/200/300?2random={{photos.id}}"
+                                        [alt]="photos.title" height="200" width="300" class=" rounded-border" />
+                                    <p-tag [value]="getSeverity(photos.title)" [severity]="getSeverity(photos.title)"
+                                        class="absolute dark:!bg-surface-900"
+                                        [ngStyle]="{ 'left.px': 5, 'top.px': 5 }" />
+                                </div>
+                            </div>
+                            <div class="mb-4 font-medium">{{ photos.id }} {{ photos.title }}</div>
+                            <div class="flex justify-between items-center">
+                                <div class="mt-0 font-semibold text-xl">{{ '$' + photos.title }}</div>
+                                <span>
+                                    <p-button icon="pi pi-heart" severity="secondary" [outlined]="true" />
+                                    <p-button icon="pi pi-shopping-cart" styleClass="ml-2" />
+                                </span>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-carousel>
+            </div>
+
+            }
+
+        </div>
+    </div>
+
+
 </div>
