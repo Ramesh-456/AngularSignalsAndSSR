@@ -1,0 +1,38 @@
+<p>home works!</p>
+<div style="display: flex;">
+    <div>
+        @if(this.userDatas.isLoading()){
+        <h1>Loading...</h1>
+        } @else if(this.userDatas.error()){
+        <h1>Error...</h1>
+        } @else if(this.userDatas.value()){
+        @for (item of this.userDatas.value(); track item.id){
+        <div style="padding-block: 0.2rem;border: 1px solid black;width: 300px;">
+            <button style="background: black;color: white;" (click)="this.selectedUser.set(item.id)">{{item.username}}</button>
+            <h3>{{item.name}}</h3>
+            <h3>{{item.email}}</h3>
+        </div>
+
+        }
+    }
+    </div>
+    <div style="margin-left: 2rem;">
+        @if(this.selectedUserData.isLoading()){
+        <h1>Loading...</h1>
+        } @else if(this.selectedUserData.error()){
+        <h1>Error...</h1>
+        } @else if(this.selectedUserData.value()){
+        <div style="padding-block: 0.2rem;border: 1px solid black;width: 300px;">
+            <h2>Selected User Details</h2>
+            <h3>{{this.selectedUserData.value()?.name}}</h3>
+            <h3>{{this.selectedUserData.value()?.email}}</h3>
+            <h3>{{this.selectedUserData.value()?.phone}}</h3>
+            <h3>{{this.selectedUserData.value()?.website}}</h3>
+            <h3>{{this.selectedUserData.value()?.company.name}}</h3>
+            <h3>{{this.selectedUserData.value()?.address.city}}</h3>
+        </div>
+
+        }
+
+    </div>
+</div>
