@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
-import { Home } from './home/home';
-import { Login } from './login/login';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', component:Home },
-    { path: 'login', component:Login },
+    { path: 'home', loadComponent: () => import('./home/home').then(m => m.Home) },
+    { path: 'login', loadComponent: () => import('./login/login').then(m => m.Login) },
+    {path:'photos/:id', loadComponent: () => import('./photos/photos').then(m => m.Photos) },
 ];

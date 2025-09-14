@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient, httpResource } from '@angular/common/http';
-import { Component, linkedSignal, OnInit, resource, signal, Signal } from '@angular/core';
-import { Button, ButtonModule } from 'primeng/button';
+import { httpResource } from '@angular/common/http';
+import { Component, inject, OnInit, resource, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { SkeletonModule } from 'primeng/skeleton';
 import { CarouselModule } from 'primeng/carousel';
+import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 
 
@@ -15,6 +16,8 @@ import { TagModule } from 'primeng/tag';
   styleUrl: './home.css'
 })
 export class Home implements OnInit {
+
+  router = inject(Router)
   ngOnInit(): void {
    console.log("Home component initialized");
   }
@@ -71,11 +74,4 @@ export class Home implements OnInit {
         }
     }
 
-    selectedUserAlbum = linkedSignal({
-      source: this.selectedUser,
-      computation: () => {  
-        return 0;
-      }
-    });
-    selectedUserAlbumData = httpResource<any[]>(() => this.selectedUserAlbum() === 0 ? undefined : `https://jsonplaceholder.typicode.com/photos?albumId=${this.selectedUserAlbum()}`);
-}
+    }
