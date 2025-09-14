@@ -71,11 +71,4 @@ export class Home implements OnInit {
         }
     }
 
-    selectedUserAlbum = linkedSignal({
-      source: this.selectedUser,
-      computation: () => {  
-        return 0;
-      }
-    });
-    selectedUserAlbumData = httpResource<any[]>(() => this.selectedUserAlbum() === 0 ? undefined : `https://jsonplaceholder.typicode.com/photos?albumId=${this.selectedUserAlbum()}`);
-}
+    }
